@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>This is the End... (of web3)</title>
+  <meta name="description" content="The end is coming. This project will not enrich your life in any way.">
+  <meta property="og:title" content="This is the End... (of web3)">
+  <meta property="og:description" content="This project will not enrich your life in any way.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --blood: #8B0000;
+      --blood-glow: #CC0000;
+      --gold: #D4AF37;
+      --gold-light: #F5E6A3;
+      --gold-dark: #B8952A;
+      --black: #000000;
+      --grey: #666666;
+      --white: #E8E8E8;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      position: relative;
+    }
+
+    /* ── Full-screen Reaper background ── */
+    .reaper-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: url('reaper-1.png') center center / cover no-repeat;
+      filter: brightness(0.45);
+    }
+
+    /* ── Dark gradient overlays to make text pop ── */
+    .overlay-top {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 45%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .overlay-bottom {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 40%;
+      background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ── Subtle vignette ── */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ── Content wrapper ── */
+    .page {
+      position: relative;
+      z-index: 2;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3rem 2rem 1.5rem;
+    }
+
+    /* ── Top section: Title ── */
+    .top {
+      text-align: center;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeDown 1.2s ease 0.3s forwards;
+    }
+
+    .title {
+      font-family: 'Cinzel Decorative', serif;
+      font-weight: 900;
+      font-size: clamp(2.2rem, 7vw, 5rem);
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #F5E6A3 0%, #D4AF37 40%, #B8952A 70%, #8B6914 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.05;
+      letter-spacing: 0.06em;
+      filter: drop-shadow(0 2px 20px rgba(212, 175, 55, 0.3)) drop-shadow(0 0 60px rgba(212, 175, 55, 0.1));
+    }
+
+    .title-sub {
+      font-family: 'Cinzel', serif;
+      font-weight: 400;
+      font-size: clamp(1rem, 3vw, 1.6rem);
+      background: linear-gradient(180deg, #D4AF37 0%, #B8952A 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 0.4em;
+      text-transform: lowercase;
+      margin-top: 0.4em;
+      filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.15));
+    }
+
+    /* ── Subtitle copy ── */
+    .subtitle-copy {
+      text-align: center;
+      opacity: 0;
+      transform: translateY(-10px);
+      animation: fadeDown 1.2s ease 0.6s forwards;
+    }
+
+    .subtitle-line {
+      font-family: 'Cinzel', serif;
+      font-weight: 400;
+      font-size: clamp(0.85rem, 2vw, 1.15rem);
+      color: rgba(232, 232, 232, 0.75);
+      letter-spacing: 0.2em;
+      line-height: 1.8;
+    }
+
+    .subtitle-line.secondary {
+      font-style: italic;
+      color: rgba(212, 175, 55, 0.55);
+      font-size: clamp(0.75rem, 1.7vw, 1rem);
+      letter-spacing: 0.25em;
+    }
+
+    /* ── Middle: countdown centered over reaper ── */
+    .middle {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Bottom section: Countdown + tagline ── */
+    .bottom {
+      text-align: center;
+      width: 100%;
+      max-width: 700px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1.2s ease 0.8s forwards;
+    }
+
+    /* ── Countdown ── */
+    .countdown-wrapper {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .countdown {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .countdown.hidden { display: none; }
+
+    .countdown-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 70px;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 8px;
+      padding: 0.8rem 0.6rem 0.6rem;
+    }
+
+    .countdown-number {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 5.5vw, 3.2rem);
+      font-weight: 700;
+      background: linear-gradient(180deg, #F5E6A3 0%, #D4AF37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      letter-spacing: 0.05em;
+    }
+
+    .countdown-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(212, 175, 55, 0.5);
+      margin-top: 0.4rem;
+    }
+
+    .countdown-separator {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      background: linear-gradient(180deg, #D4AF37 0%, #8B6914 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      padding-bottom: 1rem;
+      animation: sepPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes sepPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 0.2; }
+    }
+
+    /* ── Waiting state ── */
+    .waiting-text {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #D4AF37 0%, #8B6914 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: waitPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes waitPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* ── Rhyme ── */
+    .rhyme {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    .rhyme p {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+      color: rgba(232, 232, 232, 0.5);
+      letter-spacing: 0.15em;
+      line-height: 2;
+      text-transform: uppercase;
+    }
+
+    .rhyme p span {
+      color: rgba(212, 175, 55, 0.7);
+    }
+
+    /* ── Connect Wallet button ── */
+    .wallet-btn {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      padding: 0.8rem 2.5rem;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: clamp(0.7rem, 1.3vw, 0.85rem);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .wallet-btn:hover {
+      background: rgba(212, 175, 55, 0.1);
+      border-color: var(--gold);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+    }
+
+    /* ── Thin gold divider ── */
+    .divider {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto 1.5rem;
+      opacity: 0.4;
+    }
+
+    /* ── Tagline ── */
+    .tagline {
+      font-family: 'Cinzel', serif;
+      font-weight: 400;
+      font-size: clamp(0.65rem, 1.3vw, 0.8rem);
+      color: rgba(212, 175, 55, 0.45);
+      letter-spacing: 0.2em;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    /* ── Bottom bar ── */
+    .bottom-bar {
+      width: 100%;
+      padding: 1rem 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(212, 175, 55, 0.08);
+      margin-top: 1.5rem;
+    }
+
+    .bottom-bar a {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.6rem;
+      color: rgba(212, 175, 55, 0.3);
+      text-decoration: none;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .bottom-bar a:hover {
+      color: var(--gold);
+    }
+
+    .bottom-right {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.55rem;
+      color: rgba(212, 175, 55, 0.15);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeDown {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .page { padding: 2rem 1.5rem 1rem; }
+      .countdown { gap: 0.5rem; }
+      .countdown-unit { min-width: 55px; padding: 0.6rem 0.4rem 0.5rem; }
+      .bottom-bar { flex-direction: column; gap: 0.3rem; text-align: center; }
+    }
+
+    @media (min-width: 1200px) {
+      .reaper-bg {
+        background-size: contain;
+        background-position: center center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Reaper background image -->
+  <div class="reaper-bg"></div>
+  <div class="overlay-top"></div>
+  <div class="overlay-bottom"></div>
+  <div class="vignette"></div>
+
+  <!-- Page content -->
+  <div class="page">
+
+    <!-- Top: Title -->
+    <div class="top">
+      <h1 class="title">This is the End</h1>
+      <p class="title-sub">(of web3)</p>
+    </div>
+
+    <!-- Subtitle + Countdown + Rhyme (upper section) -->
+    <div class="subtitle-copy">
+      <p class="subtitle-line">THE END IS COMING</p>
+      <p class="subtitle-line secondary">A game of chance, a game of survival</p>
+      <p class="subtitle-line secondary">The Community will decide who survives</p>
+
+      <div class="countdown-wrapper">
+        <div class="countdown" id="countdown">
+          <div class="countdown-unit">
+            <span class="countdown-number">??</span>
+            <span class="countdown-label">Days</span>
+          </div>
+          <span class="countdown-separator">:</span>
+          <div class="countdown-unit">
+            <span class="countdown-number">??</span>
+            <span class="countdown-label">Hours</span>
+          </div>
+          <span class="countdown-separator">:</span>
+          <div class="countdown-unit">
+            <span class="countdown-number">??</span>
+            <span class="countdown-label">Minutes</span>
+          </div>
+          <span class="countdown-separator">:</span>
+          <div class="countdown-unit">
+            <span class="countdown-number">??</span>
+            <span class="countdown-label">Seconds</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rhyme">
+        <p>1, 2... <span>Reaper's coming for you</span></p>
+        <p>3, 4... <span>Better lock your door</span></p>
+        <p>5, 6... <span>Better sell your coins quick</span></p>
+        <p>7, 8... <span>Better make that cake</span></p>
+        <p>9, 10... <span>This is the End</span></p>
+      </div>
+    </div>
+
+    <!-- Middle: Reaper shows through -->
+    <div class="middle"></div>
+
+    <!-- Bottom: Wallet + Tagline -->
+    <div class="bottom">
+      <button class="wallet-btn">CONNECT WALLET</button>
+      <div class="divider"></div>
+      <p class="tagline">"This project will not enrich your life in any way."</p>
+      <div class="bottom-bar">
+        <a href="#">Abstract Chain</a>
+        <span class="bottom-right">DEATH-000</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Countdown script disabled — static || placeholders for now -->
+  <!-- To reactivate: replace || with id="days" etc. and uncomment the script below -->
+  <!--
+  <script>
+    const TARGET_DATE = new Date("2026-04-01T00:00:00Z");
+    const els = { days: document.getElementById('days'), hours: document.getElementById('hours'), minutes: document.getElementById('minutes'), seconds: document.getElementById('seconds') };
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function tick() {
+      const diff = TARGET_DATE - new Date();
+      if (diff <= 0) return;
+      els.days.textContent = pad(Math.floor(diff / 86400000));
+      els.hours.textContent = pad(Math.floor((diff % 86400000) / 3600000));
+      els.minutes.textContent = pad(Math.floor((diff % 3600000) / 60000));
+      els.seconds.textContent = pad(Math.floor((diff % 60000) / 1000));
+    }
+    tick(); setInterval(tick, 1000);
+  </script>
+  -->
+
+</body>
+</html>
