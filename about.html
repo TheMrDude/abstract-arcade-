@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THIS IS THE END (of web3) — The Reaper's Ledger</title>
+  <meta name="description" content="A 14-day elimination game on Abstract Chain. Pay to enter. Kill or be killed. Survivors split the pot. This project will not enrich your life in any way.">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;700&family=Inter:wght@300;400;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #d4af37;
+      --gold-dim: rgba(212,175,55,0.6);
+      --blood: #8b0000;
+      --blood-glow: rgba(139,0,0,0.3);
+      --bg: #0a0808;
+      --bg-card: rgba(26,20,16,0.6);
+      --text: rgba(255,255,255,0.8);
+      --text-dim: rgba(255,255,255,0.35);
+      --text-faint: rgba(255,255,255,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ═══ UTILITY ═══ */
+    .gold { color: var(--gold); }
+    .blood { color: var(--blood); }
+    .dim { color: var(--text-dim); }
+    .faint { color: var(--text-faint); }
+    .cinzel { font-family: 'Cinzel', serif; }
+    .cinzel-d { font-family: 'Cinzel Decorative', cursive; }
+    .special { font-family: 'Special Elite', cursive; }
+    .tracking { letter-spacing: 0.15em; }
+    .uppercase { text-transform: uppercase; }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ═══ HERO ═══ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      padding: 60px 24px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 30%, rgba(139,0,0,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 80%, rgba(212,175,55,0.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--blood);
+      margin-bottom: 16px;
+      font-family: 'Special Elite', cursive;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      color: var(--gold);
+      line-height: 1.1;
+      margin-bottom: 8px;
+      text-shadow: 0 0 40px rgba(212,175,55,0.15);
+    }
+
+    .hero-subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.9rem, 2vw, 1.3rem);
+      color: var(--text-dim);
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    .hero-pitch {
+      max-width: 600px;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 48px;
+    }
+
+    .hero-pitch strong {
+      color: var(--gold);
+    }
+
+    .hero-cta {
+      display: inline-block;
+      padding: 16px 48px;
+      background: linear-gradient(135deg, var(--gold), #b8961f);
+      color: var(--bg);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: 0 0 30px rgba(212,175,55,0.2);
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(212,175,55,0.35);
+    }
+
+    .hero-disclaimer {
+      margin-top: 16px;
+      font-size: 11px;
+      color: var(--text-faint);
+      font-family: 'Special Elite', cursive;
+    }
+
+    .scroll-arrow {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+      color: var(--text-faint);
+      font-size: 24px;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ═══ SECTIONS ═══ */
+    section {
+      padding: 80px 0;
+      position: relative;
+    }
+
+    section + section {
+      border-top: 1px solid rgba(212,175,55,0.06);
+    }
+
+    .section-tag {
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--blood);
+      font-family: 'Special Elite', cursive;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .section-body {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text);
+      max-width: 700px;
+    }
+
+    .section-body strong {
+      color: var(--gold);
+    }
+
+    .section-body em {
+      color: var(--text-dim);
+      font-style: normal;
+    }
+
+    /* ═══ HOW IT WORKS STEPS ═══ */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .step {
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.08);
+      border-radius: 8px;
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step::before {
+      content: attr(data-num);
+      position: absolute;
+      top: -10px;
+      right: 12px;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 4rem;
+      color: rgba(212,175,55,0.04);
+      font-weight: 900;
+    }
+
+    .step-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .step-body {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text-dim);
+    }
+
+    /* ═══ KILL CURVE ═══ */
+    .curve-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 32px;
+      font-size: 0.85rem;
+    }
+
+    .curve-table th {
+      text-align: left;
+      padding: 10px 16px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gold-dim);
+      border-bottom: 1px solid rgba(212,175,55,0.15);
+    }
+
+    .curve-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      color: var(--text-dim);
+    }
+
+    .curve-table td:first-child {
+      font-family: 'Special Elite', cursive;
+      color: var(--gold);
+    }
+
+    .curve-table td:nth-child(2) {
+      font-weight: 700;
+    }
+
+    .curve-table tr:last-child td {
+      color: var(--blood);
+      font-weight: 700;
+    }
+
+    .bar-cell {
+      position: relative;
+      padding-left: 0 !important;
+    }
+
+    .bar-fill {
+      height: 6px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--blood));
+    }
+
+    /* ═══ REAPING SCHEDULE ═══ */
+    .reap-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-top: 32px;
+    }
+
+    .reap-day {
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.06);
+      border-radius: 6px;
+      padding: 12px 8px;
+      text-align: center;
+    }
+
+    .reap-day-num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    .reap-day-rate {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .reap-day-label {
+      font-size: 0.6rem;
+      color: var(--text-faint);
+      font-family: 'Special Elite', cursive;
+      margin-top: 4px;
+    }
+
+    .phase-whisper .reap-day-rate { color: var(--gold-dim); }
+    .phase-gathering .reap-day-rate { color: var(--gold); }
+    .phase-culling .reap-day-rate { color: #cc6600; }
+    .phase-blood .reap-day-rate { color: #cc2200; }
+    .phase-harvest .reap-day-rate { color: var(--blood); }
+    .phase-final .reap-day-rate { color: #ff0000; }
+
+    /* ═══ PAYOUT BOX ═══ */
+    .payout-box {
+      background: linear-gradient(135deg, rgba(34,197,94,0.06), var(--bg-card));
+      border: 1px solid rgba(34,197,94,0.15);
+      border-radius: 8px;
+      padding: 32px;
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .payout-box .label {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(34,197,94,0.6);
+      margin-bottom: 8px;
+    }
+
+    .payout-box .amount {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 2.5rem;
+      color: #22c55e;
+      text-shadow: 0 0 20px rgba(34,197,94,0.2);
+    }
+
+    .payout-box .sub {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-top: 8px;
+    }
+
+    .payout-scenarios {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+      text-align: center;
+    }
+
+    .scenario {
+      background: rgba(255,255,255,0.02);
+      border-radius: 6px;
+      padding: 16px;
+    }
+
+    .scenario-players {
+      font-size: 0.7rem;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .scenario-payout {
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem;
+      color: #22c55e;
+      margin: 4px 0;
+    }
+
+    .scenario-roi {
+      font-size: 0.75rem;
+      color: var(--gold-dim);
+    }
+
+    /* ═══ DEATH CERT PREVIEW ═══ */
+    .cert-preview {
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.1);
+      border-radius: 8px;
+      padding: 32px;
+      margin-top: 32px;
+      text-align: center;
+    }
+
+    .cert-preview-title {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.2rem;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .cert-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+      text-align: left;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cert-field-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-faint);
+    }
+
+    .cert-field-value {
+      font-family: 'Special Elite', cursive;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    .cert-stamp {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 24px;
+      border: 2px solid var(--blood);
+      border-radius: 4px;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.5rem;
+      color: var(--blood);
+      transform: rotate(-8deg);
+      opacity: 0.7;
+    }
+
+    /* ═══ QUOTE ═══ */
+    .quote-block {
+      text-align: center;
+      padding: 60px 24px;
+      position: relative;
+    }
+
+    .quote-block::before,
+    .quote-block::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 1px;
+      background: rgba(212,175,55,0.2);
+      margin: 0 auto 24px;
+    }
+
+    .quote-block::after {
+      margin: 24px auto 0;
+    }
+
+    .quote-text {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--gold-dim);
+      font-style: italic;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ═══ FINAL CTA ═══ */
+    .final-cta {
+      text-align: center;
+      padding: 80px 24px;
+      background: linear-gradient(180deg, transparent, rgba(139,0,0,0.06));
+    }
+
+    .final-cta .section-title {
+      margin-bottom: 16px;
+    }
+
+    .final-cta p {
+      color: var(--text-dim);
+      margin-bottom: 32px;
+      font-size: 1rem;
+    }
+
+    /* ═══ FOOTER ═══ */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid rgba(212,175,55,0.06);
+      font-size: 0.7rem;
+      color: var(--text-faint);
+      font-family: 'Special Elite', cursive;
+    }
+
+    footer a {
+      color: var(--gold-dim);
+      text-decoration: none;
+    }
+
+    /* ═══ RESPONSIVE ═══ */
+    @media (max-width: 600px) {
+      .reap-grid { grid-template-columns: repeat(4, 1fr); }
+      .cert-fields { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════ HERO ═══════ -->
+  <div class="hero">
+    <div class="hero-tag">A game on Abstract Chain</div>
+    <h1 class="hero-title">This Is The End</h1>
+    <p class="hero-subtitle">(of web3)</p>
+
+    <p class="hero-pitch">
+      <strong>Pay 0.005 ETH to enter a 14-day elimination game.</strong><br>
+      Every day, the Reaper randomly kills players. You can kill each other too —
+      if you're willing to pay for it. Survivors split 70% of everything in the pool.
+      <br><br>
+      Every ETH spent on kills — hits <em>and</em> misses — goes into the pot.
+      The more chaos, the bigger the payout.
+    </p>
+
+    <a href="#how" class="hero-cta">Read The Rules</a>
+    <p class="hero-disclaimer">"This project will not enrich your life in any way."</p>
+
+    <a href="/" style="display:inline-block;margin-top:24px;font-size:0.7rem;color:rgba(212,175,55,0.4);text-decoration:none;letter-spacing:0.2em;text-transform:uppercase;font-family:'Cinzel',serif;transition:color 0.3s;" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='rgba(212,175,55,0.4)'">&larr; Back to Countdown</a>
+
+    <div class="scroll-arrow">&#8595;</div>
+  </div>
+
+  <!-- ═══════ HOW IT WORKS ═══════ -->
+  <section id="how">
+    <div class="container">
+      <div class="section-tag">The Rules</div>
+      <h2 class="section-title">How It Works</h2>
+
+      <div class="steps">
+        <div class="step" data-num="01">
+          <div class="step-title">Pay to Enter</div>
+          <p class="step-body">One-time entry fee of 0.005 ETH. That's your ticket into the season. The moment you enter, you're a target.</p>
+        </div>
+        <div class="step" data-num="02">
+          <div class="step-title">Survive the Reaper</div>
+          <p class="step-body">Every day for 14 days, the Reaper randomly kills a percentage of the player base. The rate escalates from 3% on Day 1 to 30% on Day 14. Nobody is safe.</p>
+        </div>
+        <div class="step" data-num="03">
+          <div class="step-title">Kill or Hide</div>
+          <p class="step-body">Spend ETH to attempt kills on other players. More ETH = better odds, but it's never guaranteed. Or spend nothing, hide, and pray. Both are valid strategies.</p>
+        </div>
+        <div class="step" data-num="04">
+          <div class="step-title">Survivors Split the Pot</div>
+          <p class="step-body">When the season ends, every player still alive splits 70% of the total death pool. Every entry fee, every kill attempt, every failed assassination — it's all in there.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ THE KILL ═══════ -->
+  <section>
+    <div class="container">
+      <div class="section-tag">The Weapon</div>
+      <h2 class="section-title">The Kill Curve</h2>
+
+      <div class="section-body">
+        <p>
+          Spending more ETH on a kill attempt increases your odds — but it follows a <strong>logarithmic curve</strong>.
+          The first 0.01 ETH buys you a lot. After that, the returns diminish hard. And the cap? <strong>65%.</strong>
+          Even if you throw 1 ETH at someone, there's a 35% chance they walk away laughing — and your ETH joins the pool for everyone else.
+        </p>
+        <p style="margin-top: 12px;">
+          <em>There are no guaranteed kills. The Reaper always has the last word.</em>
+        </p>
+      </div>
+
+      <table class="curve-table">
+        <tr>
+          <th>You Spend</th>
+          <th>Kill Chance</th>
+          <th style="width:40%">Odds</th>
+        </tr>
+        <tr>
+          <td>0.002 ETH</td>
+          <td style="color: var(--gold-dim)">10%</td>
+          <td class="bar-cell"><div class="bar-fill" style="width:15.4%"></div></td>
+        </tr>
+        <tr>
+          <td>0.005 ETH</td>
+          <td style="color: var(--gold-dim)">18%</td>
+          <td class="bar-cell"><div class="bar-fill" style="width:27.7%"></div></td>
+        </tr>
+        <tr>
+          <td>0.01 ETH</td>
+          <td style="color: var(--gold)">25%</td>
+          <td class="bar-cell"><div class="bar-fill" style="width:38.5%"></div></td>
+        </tr>
+        <tr>
+          <td>0.025 ETH</td>
+          <td style="color: var(--gold)">35%</td>
+          <td class="bar-cell"><div class="bar-fill" style="width:53.8%"></div></td>
+        </tr>
+        <tr>
+          <td>0.05 ETH</td>
+          <td style="color: #cc6600">45%</td>
+          <td class="bar-cell"><div class="bar-fill" style="width:69.2%"></div></td>
+        </tr>
+        <tr>
+          <td>0.1 ETH</td>
+          <td style="color: #cc2200">55%</td>
+          <td class="bar-cell"><div class="bar-fill" style="width:84.6%"></div></td>
+        </tr>
+        <tr>
+          <td>0.25+ ETH</td>
+          <td>65% MAX</td>
+          <td class="bar-cell"><div class="bar-fill" style="width:100%"></div></td>
+        </tr>
+      </table>
+
+      <p style="margin-top: 16px; font-size: 0.8rem; color: var(--text-faint); font-family: 'Special Elite', cursive;">
+        Someone will spend 1 ETH to miss. That ETH goes to the pool. That's not a bug — that's the game.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════ REAPING SCHEDULE ═══════ -->
+  <section>
+    <div class="container">
+      <div class="section-tag">The Clock</div>
+      <h2 class="section-title">The Reaping Schedule</h2>
+
+      <div class="section-body">
+        <p>
+          Every day, the Reaper randomly eliminates a percentage of alive players.
+          Days 1-2 are a whisper. By Day 12, a quarter of the remaining players vanish.
+          <strong>No one chooses who dies. The chain decides.</strong>
+        </p>
+      </div>
+
+      <div class="reap-grid">
+        <div class="reap-day phase-whisper"><div class="reap-day-num">1</div><div class="reap-day-rate">3%</div><div class="reap-day-label">Whisper</div></div>
+        <div class="reap-day phase-whisper"><div class="reap-day-num">2</div><div class="reap-day-rate">3%</div><div class="reap-day-label">Whisper</div></div>
+        <div class="reap-day phase-gathering"><div class="reap-day-num">3</div><div class="reap-day-rate">5%</div><div class="reap-day-label">Gathering</div></div>
+        <div class="reap-day phase-gathering"><div class="reap-day-num">4</div><div class="reap-day-rate">5%</div><div class="reap-day-label">Gathering</div></div>
+        <div class="reap-day phase-gathering"><div class="reap-day-num">5</div><div class="reap-day-rate">7%</div><div class="reap-day-label">Gathering</div></div>
+        <div class="reap-day phase-culling"><div class="reap-day-num">6</div><div class="reap-day-rate">10%</div><div class="reap-day-label">Culling</div></div>
+        <div class="reap-day phase-culling"><div class="reap-day-num">7</div><div class="reap-day-rate">10%</div><div class="reap-day-label">Culling</div></div>
+        <div class="reap-day phase-culling"><div class="reap-day-num">8</div><div class="reap-day-rate">12%</div><div class="reap-day-label">Culling</div></div>
+        <div class="reap-day phase-blood"><div class="reap-day-num">9</div><div class="reap-day-rate">15%</div><div class="reap-day-label">Blood Moon</div></div>
+        <div class="reap-day phase-blood"><div class="reap-day-num">10</div><div class="reap-day-rate">15%</div><div class="reap-day-label">Blood Moon</div></div>
+        <div class="reap-day phase-blood"><div class="reap-day-num">11</div><div class="reap-day-rate">20%</div><div class="reap-day-label">Blood Moon</div></div>
+        <div class="reap-day phase-harvest"><div class="reap-day-num">12</div><div class="reap-day-rate">25%</div><div class="reap-day-label">Harvest</div></div>
+        <div class="reap-day phase-harvest"><div class="reap-day-num">13</div><div class="reap-day-rate">30%</div><div class="reap-day-label">Harvest</div></div>
+        <div class="reap-day phase-final"><div class="reap-day-num">14</div><div class="reap-day-rate">30%</div><div class="reap-day-label">Final</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ QUOTE BREAK ═══════ -->
+  <div class="quote-block">
+    <p class="quote-text">
+      "Someone will spend 1 ETH trying to kill you and miss. That 1 ETH goes straight into YOUR pot. Welcome to the game."
+    </p>
+  </div>
+
+  <!-- ═══════ PAYOUTS ═══════ -->
+  <section>
+    <div class="container">
+      <div class="section-tag">The Prize</div>
+      <h2 class="section-title">The Death Pool</h2>
+
+      <div class="section-body">
+        <p>
+          Every ETH that enters the game — entry fees, kill attempts, misses, whale donations —
+          goes into the death pool. <strong>70% goes to survivors. 20% to the Reaper. 10% seeds the next season.</strong>
+        </p>
+        <p style="margin-top: 12px;">
+          The more people play and the more they spend on kills, the bigger the payout.
+          You don't need to kill anyone to win. You just need to not die.
+        </p>
+      </div>
+
+      <div class="payout-box">
+        <div class="label">Estimated Survivor Payout</div>
+        <div class="amount">5-10x Entry</div>
+        <div class="sub">Conservative estimate based on typical kill activity</div>
+
+        <div class="payout-scenarios">
+          <div class="scenario">
+            <div class="scenario-players">500 Players</div>
+            <div class="scenario-payout">~0.024 ETH</div>
+            <div class="scenario-roi">4.8x entry</div>
+          </div>
+          <div class="scenario">
+            <div class="scenario-players">1,000 Players</div>
+            <div class="scenario-payout">~0.049 ETH</div>
+            <div class="scenario-roi">9.7x entry</div>
+          </div>
+          <div class="scenario">
+            <div class="scenario-players">5,000 Players</div>
+            <div class="scenario-payout">~0.243 ETH</div>
+            <div class="scenario-roi">48.6x entry</div>
+          </div>
+          <div class="scenario">
+            <div class="scenario-players">10,000 Players</div>
+            <div class="scenario-payout">~0.486 ETH</div>
+            <div class="scenario-roi">97.2x entry</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ DEATH CERTIFICATES ═══════ -->
+  <section>
+    <div class="container">
+      <div class="section-tag">The Receipt</div>
+      <h2 class="section-title">Death Certificates</h2>
+
+      <div class="section-body">
+        <p>
+          When you die, you get an NFT. Not a consolation prize — a <strong>permanent on-chain record</strong> of exactly how you went out.
+          Who killed you. How much they spent. What ridiculous cause of death the Reaper assigned you.
+          120 possible causes across 11 rarity tiers — from "Liquidated by a Governance Vote" to "Absorbed by the Abstract Realm."
+        </p>
+        <p style="margin-top: 12px;">
+          The rarer your death, the more your certificate is worth. <em>Some people will die better than others.</em>
+        </p>
+      </div>
+
+      <div class="cert-preview">
+        <div style="font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--blood); margin-bottom: 4px;">Official Document</div>
+        <div class="cert-preview-title">Certificate of Death</div>
+        <div style="font-size: 0.7rem; color: var(--text-faint);">The Reaper's Ledger — Season 1</div>
+
+        <div class="cert-fields">
+          <div>
+            <div class="cert-field-label">Victim</div>
+            <div class="cert-field-value">0xd3ad...b33f</div>
+          </div>
+          <div>
+            <div class="cert-field-label">Time of Death</div>
+            <div class="cert-field-value">Day 9, 14:32 UTC</div>
+          </div>
+          <div>
+            <div class="cert-field-label">Cause of Death</div>
+            <div class="cert-field-value" style="color: #9b59b6;">Liquidated by a Governance Vote</div>
+          </div>
+          <div>
+            <div class="cert-field-label">Killed By</div>
+            <div class="cert-field-value" style="color: var(--blood);">The Reaper</div>
+          </div>
+          <div>
+            <div class="cert-field-label">Rarity</div>
+            <div class="cert-field-value" style="color: #9b59b6;">Epic</div>
+          </div>
+          <div>
+            <div class="cert-field-label">Bounty Spent</div>
+            <div class="cert-field-value">0.000 ETH (Reaped)</div>
+          </div>
+        </div>
+
+        <div class="cert-stamp">REKT</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ STRATEGIES ═══════ -->
+  <section>
+    <div class="container">
+      <div class="section-tag">The Meta</div>
+      <h2 class="section-title">Two Ways to Play</h2>
+
+      <div class="steps" style="grid-template-columns: 1fr 1fr; margin-top: 32px;">
+        <div class="step" data-num="">
+          <div class="step-title" style="color: var(--blood);">The Predator</div>
+          <p class="step-body">
+            Spend ETH. Hunt targets. Stack kills. Climb the leaderboard. Earn "The Butcher" title.
+            Your kills thin the herd and increase YOUR payout — if you survive. Every kill attempt adds to the pool,
+            so even your misses fund the endgame. High risk, high glory.
+          </p>
+        </div>
+        <div class="step" data-num="">
+          <div class="step-title" style="color: #22c55e;">The Ghost</div>
+          <p class="step-body">
+            Pay 0.005 ETH. Do nothing. Pray. If the Reaper skips you for 14 days, you split a pot
+            funded by everyone else's violence. Some of the biggest ROIs will come from players who
+            never touched the kill button. There's a title for it: "The Ghost."
+          </p>
+        </div>
+      </div>
+
+      <p style="text-align: center; margin-top: 24px; font-size: 0.8rem; color: var(--text-faint); font-family: 'Special Elite', cursive;">
+        Both strategies are valid. Both can win. That's the game theory.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════ FINAL QUOTE ═══════ -->
+  <div class="quote-block">
+    <p class="quote-text">
+      "The only guarantee is that everyone who enters will either survive or receive a very nice NFT documenting their failure."
+    </p>
+  </div>
+
+  <!-- ═══════ FINAL CTA ═══════ -->
+  <div class="final-cta">
+    <div class="section-tag">Season 1</div>
+    <h2 class="section-title">The Ledger Awaits</h2>
+    <p>Entry: 0.005 ETH &nbsp;|&nbsp; Duration: 14 Days &nbsp;|&nbsp; Abstract Chain</p>
+    <a href="/" class="hero-cta">Enter Season 1</a>
+    <p class="hero-disclaimer" style="margin-top: 16px;">
+      "This project will not enrich your life in any way."<br>
+      No roadmap. No utility. No promises. Just a pot of ETH and a reaper with a schedule.
+    </p>
+  </div>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer>
+    <p>The Reaper's Ledger — Built on <a href="https://abs.xyz" target="_blank">Abstract Chain</a></p>
+    <p style="margin-top: 8px;">Contract: <span style="color: var(--gold-dim);">TBD</span> &nbsp;|&nbsp; <a href="#">Twitter</a> &nbsp;|&nbsp; <a href="#">Discord</a></p>
+    <p style="margin-top: 16px;">Not financial advice. Not life advice. Not advice.</p>
+  </footer>
+
+</body>
+</html>
