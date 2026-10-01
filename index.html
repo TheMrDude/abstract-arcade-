@@ -3,468 +3,233 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>This is the End... (of web3)</title>
-  <meta name="description" content="The end is coming. This project will not enrich your life in any way.">
-  <meta property="og:title" content="This is the End... (of web3)">
-  <meta property="og:description" content="This project will not enrich your life in any way.">
+  <title>THIS IS THE END (of Web3)</title>
+  <meta name="description" content="Web3 keeps dying. We keep the records. The Chronicle documents the deaths, lessons, survivors, and rebuilds.">
+  <meta property="og:title" content="THIS IS THE END (of Web3)">
+  <meta property="og:description" content="Web3 keeps dying. We keep the records.">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --blood: #8B0000;
-      --blood-glow: #CC0000;
-      --gold: #D4AF37;
-      --gold-light: #F5E6A3;
-      --gold-dark: #B8952A;
-      --black: #000000;
-      --grey: #666666;
-      --white: #E8E8E8;
+    :root{
+      --bg:#050505;
+      --panel:#0c0c0d;
+      --ink:#f1eee9;
+      --muted:#9a9690;
+      --red:#e31b23;
+      --line:#242426;
+      --bone:#e7dfd1;
     }
-
-    html, body {
-      height: 100%;
-      overflow: hidden;
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:Inter,system-ui,sans-serif;
+      overflow-x:hidden;
     }
-
-    body {
-      background: var(--black);
-      color: var(--white);
-      font-family: 'Inter', sans-serif;
-      position: relative;
+    a{color:inherit}
+    .shell{max-width:1200px;margin:0 auto;padding:0 24px}
+    .topbar{
+      position:fixed;top:0;left:0;right:0;z-index:20;
+      background:rgba(5,5,5,.78);backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(255,255,255,.06)
     }
-
-    /* ── Full-screen Reaper background ── */
-    .reaper-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background: url('reaper-1.png') center center / cover no-repeat;
-      filter: brightness(0.45);
+    .nav{height:70px;display:flex;align-items:center;justify-content:space-between}
+    .brand{font-family:"Bebas Neue",sans-serif;font-size:28px;letter-spacing:.07em;text-decoration:none}
+    .brand span{color:var(--red)}
+    .navlinks{display:flex;gap:22px;align-items:center}
+    .navlinks a{font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:#bdb8b0}
+    .navlinks .cta{color:#fff;border:1px solid #5a191c;padding:11px 15px;background:#140708}
+    .hero{
+      min-height:100svh;display:flex;align-items:center;position:relative;padding:110px 0 80px;
+      isolation:isolate;
     }
-
-    /* ── Dark gradient overlays to make text pop ── */
-    .overlay-top {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 45%;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
-      z-index: 1;
-      pointer-events: none;
+    .hero:before{
+      content:"";position:absolute;inset:0;z-index:-3;
+      background:url('reaper-1.png') center/cover no-repeat;
+      filter:brightness(.28) saturate(.7) contrast(1.1);
     }
-
-    .overlay-bottom {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      height: 40%;
-      background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
-      z-index: 1;
-      pointer-events: none;
+    .hero:after{
+      content:"";position:absolute;inset:0;z-index:-2;
+      background:
+        radial-gradient(circle at 78% 30%,rgba(227,27,35,.28),transparent 34%),
+        linear-gradient(90deg,rgba(5,5,5,.98) 0%,rgba(5,5,5,.82) 42%,rgba(5,5,5,.22) 70%,rgba(5,5,5,.72) 100%),
+        linear-gradient(0deg,#050505 0%,transparent 28%);
     }
-
-    /* ── Subtle vignette ── */
-    .vignette {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
-      z-index: 1;
-      pointer-events: none;
+    .hero-inner{max-width:780px}
+    .eyebrow{
+      font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:24px
     }
-
-    /* ── Content wrapper ── */
-    .page {
-      position: relative;
-      z-index: 2;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 3rem 2rem 1.5rem;
+    h1{
+      font-family:"Bebas Neue",sans-serif;
+      margin:0;
+      font-size:clamp(72px,13vw,170px);
+      line-height:.78;
+      letter-spacing:-.01em;
+      max-width:920px
     }
-
-    /* ── Top section: Title ── */
-    .top {
-      text-align: center;
-      opacity: 0;
-      transform: translateY(-20px);
-      animation: fadeDown 1.2s ease 0.3s forwards;
+    h1 .red{color:var(--red)}
+    .dek{
+      margin-top:32px;max-width:650px;
+      font-size:clamp(18px,2.1vw,26px);
+      line-height:1.45;color:#d4cfc8
     }
-
-    .title {
-      font-family: 'Cinzel Decorative', serif;
-      font-weight: 900;
-      font-size: clamp(2.2rem, 7vw, 5rem);
-      text-transform: uppercase;
-      background: linear-gradient(180deg, #F5E6A3 0%, #D4AF37 40%, #B8952A 70%, #8B6914 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.05;
-      letter-spacing: 0.06em;
-      filter: drop-shadow(0 2px 20px rgba(212, 175, 55, 0.3)) drop-shadow(0 0 60px rgba(212, 175, 55, 0.1));
+    .dek strong{color:#fff}
+    .actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+    .button{
+      display:inline-flex;align-items:center;justify-content:center;
+      text-decoration:none;text-transform:uppercase;letter-spacing:.13em;
+      font-weight:700;font-size:12px;padding:15px 20px;border:1px solid #4a4a4b;
+      background:#111;color:#fff
     }
-
-    .title-sub {
-      font-family: 'Cinzel', serif;
-      font-weight: 400;
-      font-size: clamp(1rem, 3vw, 1.6rem);
-      background: linear-gradient(180deg, #D4AF37 0%, #B8952A 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: 0.4em;
-      text-transform: lowercase;
-      margin-top: 0.4em;
-      filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.15));
+    .button.primary{background:var(--red);border-color:var(--red);color:#fff}
+    .micro{margin-top:16px;color:#77736d;font-size:12px}
+    section{padding:96px 0;border-top:1px solid var(--line)}
+    .section-kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:14px}
+    h2{
+      font-family:"Bebas Neue",sans-serif;
+      font-size:clamp(52px,7vw,92px);line-height:.9;margin:0 0 20px;letter-spacing:.01em
     }
-
-    /* ── Subtitle copy ── */
-    .subtitle-copy {
-      text-align: center;
-      opacity: 0;
-      transform: translateY(-10px);
-      animation: fadeDown 1.2s ease 0.6s forwards;
+    .section-copy{max-width:720px;color:#a9a49d;font-size:17px;line-height:1.75}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:44px}
+    .card{
+      min-height:250px;background:linear-gradient(180deg,#0f0f10,#090909);
+      border:1px solid var(--line);padding:24px;position:relative;overflow:hidden
     }
-
-    .subtitle-line {
-      font-family: 'Cinzel', serif;
-      font-weight: 400;
-      font-size: clamp(0.85rem, 2vw, 1.15rem);
-      color: rgba(232, 232, 232, 0.75);
-      letter-spacing: 0.2em;
-      line-height: 1.8;
+    .card:before{
+      content:"";position:absolute;left:0;top:0;width:4px;height:100%;background:var(--red);opacity:.75
     }
-
-    .subtitle-line.secondary {
-      font-style: italic;
-      color: rgba(212, 175, 55, 0.55);
-      font-size: clamp(0.75rem, 1.7vw, 1rem);
-      letter-spacing: 0.25em;
+    .num{font-family:"Bebas Neue";font-size:52px;color:#272729;line-height:1}
+    .card h3{font-family:"Bebas Neue";font-size:32px;letter-spacing:.03em;margin:24px 0 10px}
+    .card p{color:#8f8b85;line-height:1.6;font-size:14px;margin:0}
+    .manifesto{
+      display:grid;grid-template-columns:1.2fr .8fr;gap:60px;align-items:center
     }
-
-    /* ── Middle: countdown centered over reaper ── */
-    .middle {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .quote{
+      font-family:"Bebas Neue";font-size:clamp(44px,6vw,80px);line-height:.92;margin:0
     }
-
-    /* ── Bottom section: Countdown + tagline ── */
-    .bottom {
-      text-align: center;
-      width: 100%;
-      max-width: 700px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 1.2s ease 0.8s forwards;
+    .quote .red{color:var(--red)}
+    .sidecopy{color:#aaa59e;font-size:16px;line-height:1.8}
+    .archive{
+      background:
+        radial-gradient(circle at 50% 0,rgba(227,27,35,.14),transparent 38%),
+        #080808;
+      text-align:center
     }
-
-    /* ── Countdown ── */
-    .countdown-wrapper {
-      margin-top: 1.5rem;
-      margin-bottom: 1.5rem;
-      min-height: 90px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .archive .section-copy{margin:0 auto}
+    .archive .button{margin-top:30px}
+    .founder-note{
+      margin:28px auto 0;max-width:650px;color:#77736d;font-size:12px;line-height:1.6
     }
-
-    .countdown {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      align-items: center;
+    footer{padding:34px 0 46px;border-top:1px solid var(--line);color:#65615c;font-size:12px}
+    .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    @media(max-width:900px){
+      .grid{grid-template-columns:1fr 1fr}
+      .manifesto{grid-template-columns:1fr}
+      .navlinks a:not(.cta){display:none}
     }
-
-    .countdown.hidden { display: none; }
-
-    .countdown-unit {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 70px;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(212, 175, 55, 0.15);
-      border-radius: 8px;
-      padding: 0.8rem 0.6rem 0.6rem;
-    }
-
-    .countdown-number {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(2rem, 5.5vw, 3.2rem);
-      font-weight: 700;
-      background: linear-gradient(180deg, #F5E6A3 0%, #D4AF37 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-      letter-spacing: 0.05em;
-    }
-
-    .countdown-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.55rem;
-      font-weight: 300;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: rgba(212, 175, 55, 0.5);
-      margin-top: 0.4rem;
-    }
-
-    .countdown-separator {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
-      background: linear-gradient(180deg, #D4AF37 0%, #8B6914 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      padding-bottom: 1rem;
-      animation: sepPulse 2s ease-in-out infinite;
-    }
-
-    @keyframes sepPulse {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 0.2; }
-    }
-
-    /* ── Waiting state ── */
-    .waiting-text {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      background: linear-gradient(180deg, #D4AF37 0%, #8B6914 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: waitPulse 3s ease-in-out infinite;
-    }
-
-    @keyframes waitPulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
-    }
-
-    /* ── Rhyme ── */
-    .rhyme {
-      margin-top: 1.5rem;
-      text-align: center;
-    }
-
-    .rhyme p {
-      font-family: 'Cinzel', serif;
-      font-weight: 700;
-      font-size: clamp(0.7rem, 1.5vw, 0.9rem);
-      color: rgba(232, 232, 232, 0.5);
-      letter-spacing: 0.15em;
-      line-height: 2;
-      text-transform: uppercase;
-    }
-
-    .rhyme p span {
-      color: rgba(212, 175, 55, 0.7);
-    }
-
-    /* ── Connect Wallet button ── */
-    .wallet-btn {
-      margin-top: 0;
-      margin-bottom: 1.5rem;
-      padding: 0.8rem 2.5rem;
-      font-family: 'Cinzel', serif;
-      font-weight: 700;
-      font-size: clamp(0.7rem, 1.3vw, 0.85rem);
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      background: transparent;
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .wallet-btn:hover {
-      background: rgba(212, 175, 55, 0.1);
-      border-color: var(--gold);
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
-    }
-
-    /* ── Thin gold divider ── */
-    .divider {
-      width: 80px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      margin: 0 auto 1.5rem;
-      opacity: 0.4;
-    }
-
-    /* ── Tagline ── */
-    .tagline {
-      font-family: 'Cinzel', serif;
-      font-weight: 400;
-      font-size: clamp(0.65rem, 1.3vw, 0.8rem);
-      color: rgba(212, 175, 55, 0.45);
-      letter-spacing: 0.2em;
-      font-style: italic;
-      line-height: 1.6;
-    }
-
-    /* ── Bottom bar ── */
-    .bottom-bar {
-      width: 100%;
-      padding: 1rem 0 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid rgba(212, 175, 55, 0.08);
-      margin-top: 1.5rem;
-    }
-
-    .bottom-bar a {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.6rem;
-      color: rgba(212, 175, 55, 0.3);
-      text-decoration: none;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      transition: color 0.3s;
-    }
-
-    .bottom-bar a:hover {
-      color: var(--gold);
-    }
-
-    .bottom-right {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.55rem;
-      color: rgba(212, 175, 55, 0.15);
-      letter-spacing: 0.1em;
-    }
-
-    /* ── Animations ── */
-    @keyframes fadeDown {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 600px) {
-      .page { padding: 2rem 1.5rem 1rem; }
-      .countdown { gap: 0.5rem; }
-      .countdown-unit { min-width: 55px; padding: 0.6rem 0.4rem 0.5rem; }
-      .bottom-bar { flex-direction: column; gap: 0.3rem; text-align: center; }
-    }
-
-    @media (min-width: 1200px) {
-      .reaper-bg {
-        background-size: contain;
-        background-position: center center;
+    @media(max-width:580px){
+      .shell{padding:0 18px}
+      .grid{grid-template-columns:1fr}
+      section{padding:72px 0}
+      h1{font-size:clamp(68px,24vw,112px)}
+      .hero{padding-top:100px;align-items:flex-end}
+      .hero:after{
+        background:
+          radial-gradient(circle at 70% 22%,rgba(227,27,35,.25),transparent 35%),
+          linear-gradient(0deg,rgba(5,5,5,.98) 0%,rgba(5,5,5,.78) 50%,rgba(5,5,5,.28) 82%),
+          linear-gradient(90deg,rgba(5,5,5,.8),rgba(5,5,5,.2));
       }
     }
   </style>
 </head>
 <body>
-
-  <!-- Reaper background image -->
-  <div class="reaper-bg"></div>
-  <div class="overlay-top"></div>
-  <div class="overlay-bottom"></div>
-  <div class="vignette"></div>
-
-  <!-- Page content -->
-  <div class="page">
-
-    <!-- Top: Title -->
-    <div class="top">
-      <h1 class="title">This is the End</h1>
-      <p class="title-sub">(of web3)</p>
+  <header class="topbar">
+    <div class="shell nav">
+      <a class="brand" href="#">THIS IS THE <span>END</span></a>
+      <nav class="navlinks">
+        <a href="#chronicle">The Chronicle</a>
+        <a href="#why">Why</a>
+        <a class="cta" href="https://x.com/TheReaperofWeb3" target="_blank" rel="noopener">Follow The Reaper</a>
+      </nav>
     </div>
+  </header>
 
-    <!-- Subtitle + Countdown + Rhyme (upper section) -->
-    <div class="subtitle-copy">
-      <p class="subtitle-line">THE END IS COMING</p>
-      <p class="subtitle-line secondary">A game of chance, a game of survival</p>
-      <p class="subtitle-line secondary">The Community will decide who survives</p>
-
-      <div class="countdown-wrapper">
-        <div class="countdown" id="countdown">
-          <div class="countdown-unit">
-            <span class="countdown-number">??</span>
-            <span class="countdown-label">Days</span>
+  <main>
+    <section class="hero">
+      <div class="shell" style="width:100%">
+        <div class="hero-inner">
+          <div class="eyebrow">THE PERMANENT RECORD OF WEB3 DYING. AGAIN.</div>
+          <h1>WEB3 KEEPS <span class="red">DYING.</span></h1>
+          <p class="dek"><strong>We keep the records.</strong> The deaths. The hacks. The shutdowns. The survivors. The rebuilds.</p>
+          <div class="actions">
+            <a class="button primary" href="https://x.com/TheReaperofWeb3" target="_blank" rel="noopener">WITNESS THE END</a>
+            <a class="button" href="#chronicle">ENTER THE CHRONICLE</a>
           </div>
-          <span class="countdown-separator">:</span>
-          <div class="countdown-unit">
-            <span class="countdown-number">??</span>
-            <span class="countdown-label">Hours</span>
-          </div>
-          <span class="countdown-separator">:</span>
-          <div class="countdown-unit">
-            <span class="countdown-number">??</span>
-            <span class="countdown-label">Minutes</span>
-          </div>
-          <span class="countdown-separator">:</span>
-          <div class="countdown-unit">
-            <span class="countdown-number">??</span>
-            <span class="countdown-label">Seconds</span>
-          </div>
+          <div class="micro">Ethereum. No mint date. No fake countdown. The archive opens when it is ready.</div>
         </div>
       </div>
+    </section>
 
-      <div class="rhyme">
-        <p>1, 2... <span>Reaper's coming for you</span></p>
-        <p>3, 4... <span>Better lock your door</span></p>
-        <p>5, 6... <span>Better sell your coins quick</span></p>
-        <p>7, 8... <span>Better make that cake</span></p>
-        <p>9, 10... <span>This is the End</span></p>
+    <section id="chronicle">
+      <div class="shell">
+        <div class="section-kicker">THE CHRONICLE</div>
+        <h2>EVERY DEATH LEAVES A RECORD.</h2>
+        <p class="section-copy">THIS IS THE END documents Web3's failures without making victims the punchline. The joke is the broken system. The record is what we learn from it.</p>
+        <div class="grid">
+          <article class="card">
+            <div class="num">01</div>
+            <h3>DEATH RECORDS</h3>
+            <p>Documented shutdowns, exploits, rugs, collapses and spectacular own goals.</p>
+          </article>
+          <article class="card">
+            <div class="num">02</div>
+            <h3>AUTOPSIES</h3>
+            <p>What actually broke, why it mattered, and what builders and users should learn.</p>
+          </article>
+          <article class="card">
+            <div class="num">03</div>
+            <h3>STILL BREATHING</h3>
+            <p>The projects, communities and builders that survived long enough to keep shipping.</p>
+          </article>
+          <article class="card">
+            <div class="num">04</div>
+            <h3>REBIRTH</h3>
+            <p>Recoveries, rebuilds and the people trying to make the next version of Web3 better.</p>
+          </article>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Middle: Reaper shows through -->
-    <div class="middle"></div>
-
-    <!-- Bottom: Wallet + Tagline -->
-    <div class="bottom">
-      <a href="/about" style="display:inline-block;margin-bottom:1.2rem;padding:0.6rem 2rem;font-family:'Cinzel',serif;font-weight:700;font-size:clamp(0.6rem,1.2vw,0.75rem);letter-spacing:0.25em;text-transform:uppercase;color:rgba(212,175,55,0.5);text-decoration:none;border:1px solid rgba(212,175,55,0.15);border-radius:4px;transition:all 0.3s;" onmouseover="this.style.color='#D4AF37';this.style.borderColor='rgba(212,175,55,0.4)';this.style.background='rgba(212,175,55,0.05)'" onmouseout="this.style.color='rgba(212,175,55,0.5)';this.style.borderColor='rgba(212,175,55,0.15)';this.style.background='transparent'">Learn the Rules</a>
-      <button class="wallet-btn">CONNECT WALLET</button>
-      <div class="divider"></div>
-      <p class="tagline">"This project will not enrich your life in any way."</p>
-      <div class="bottom-bar">
-        <a href="https://abs.xyz" target="_blank">Abstract Chain</a>
-        <span class="bottom-right">DEATH-000</span>
+    <section id="why">
+      <div class="shell manifesto">
+        <p class="quote">WEB3 ISN'T ENDING.<br><span class="red">THE BULLSHIT IS.</span></p>
+        <div class="sidecopy">
+          <p>The Reaper is not here to celebrate people losing money. He is here to remember what the space keeps trying to forget.</p>
+          <p>Collect the history. Laugh at the chaos. Learn the lesson. Help build what comes next.</p>
+        </div>
       </div>
+    </section>
+
+    <section class="archive">
+      <div class="shell">
+        <div class="section-kicker">THE ARCHIVE</div>
+        <h2>FOUNDING WITNESSES WANTED.</h2>
+        <p class="section-copy">The first permanent chapter is being built on Ethereum. No supply, price or mint date will be announced until the audience and the work justify it.</p>
+        <a class="button primary" href="https://x.com/TheReaperofWeb3" target="_blank" rel="noopener">WITNESS THE END</a>
+        <p class="founder-note">The Founding Witness registry will open here next. Email first. Wallet optional. No investment promises. No floor-price theatre.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell foot">
+      <span>© 2026 THIS IS THE END (of Web3)</span>
+      <span>THE REAPER KEEPS RECEIPTS. ☠️</span>
     </div>
-  </div>
-
-  <!-- Countdown script disabled — static || placeholders for now -->
-  <!-- To reactivate: replace || with id="days" etc. and uncomment the script below -->
-  <!--
-  <script>
-    const TARGET_DATE = new Date("2026-04-01T00:00:00Z");
-    const els = { days: document.getElementById('days'), hours: document.getElementById('hours'), minutes: document.getElementById('minutes'), seconds: document.getElementById('seconds') };
-    function pad(n) { return String(n).padStart(2, '0'); }
-    function tick() {
-      const diff = TARGET_DATE - new Date();
-      if (diff <= 0) return;
-      els.days.textContent = pad(Math.floor(diff / 86400000));
-      els.hours.textContent = pad(Math.floor((diff % 86400000) / 3600000));
-      els.minutes.textContent = pad(Math.floor((diff % 3600000) / 60000));
-      els.seconds.textContent = pad(Math.floor((diff % 60000) / 1000));
-    }
-    tick(); setInterval(tick, 1000);
-  </script>
-  -->
-
+  </footer>
 </body>
 </html>
